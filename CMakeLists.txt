@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.11)
-project(imgui_sfml_starter )
+project(imgui_sfml_starter)
 
 set(CMAKE_CXX_STANDARD 17)
 set(PROJECT_VERSION_MAJOR 0)
@@ -7,7 +7,7 @@ set(PROJECT_VERSION_MINOR 0)
 set(PROJECT_VERSION_PATCH 0)
 set(CMAKE_CXX_FLAGS -DSFML_STATIC)
 
-set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -DSFML_STATIC -DYALEX_DEBUG")
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -DSFML_STATIC")
 
 if(CMAKE_BUILD_TYPE STREQUAL "Release")
     set(RELEASE 1)
@@ -49,18 +49,14 @@ else()
     set(MINGW 0)
 endif()
 
-configure_file (
-    "${PROJECT_SOURCE_DIR}/imgui_sfml_starter.h.in"
-    "${PROJECT_SOURCE_DIR}/imgui_sfml_starter.h"
-)
+configure_file ("${PROJECT_SOURCE_DIR}/imgui_sfml_starter.h.in" "${PROJECT_SOURCE_DIR}/imgui_sfml_starter.h")
 
-include_directories(
-    ${PROJECT_SOURCE_DIR}/external_libs/imgui/
+include_directories(${PROJECT_SOURCE_DIR}/external_libs/imgui/
     ${PROJECT_SOURCE_DIR}/external_libs/fmt/include/
     ${PROJECT_SOURCE_DIR}/external_libs/sfml/include/)
 
 if(LINUX)
-    set(SFML_DEPENDENCIES GL)
+    set(SFML_DEPENDENCIES jpeg X11 Xrandr freetype xcb X11-xcb xcb-randr xcb-image GL FLAC ogg vorbis vorbisenc vorbisfile openal pthread)
     set(SFML_REST udev) #libudev
 elseif(WIN32)
     if(MSVC)
@@ -96,9 +92,9 @@ set(FMT_SOURCE_FILES ${PROJECT_SOURCE_DIR}/external_libs/fmt/src/format.cc ${PRO
 set(IMGUI_SOURCE_FILES ${PROJECT_SOURCE_DIR}/external_libs/imgui/imgui.cpp ${PROJECT_SOURCE_DIR}/external_libs/imgui/imconfig.h
         ${PROJECT_SOURCE_DIR}/external_libs/imgui/imgui_draw.cpp ${PROJECT_SOURCE_DIR}/external_libs/imgui/imgui_widgets.cpp
         ${PROJECT_SOURCE_DIR}/external_libs/imgui/imgui_demo.cpp ${PROJECT_SOURCE_DIR}/external_libs/imgui/misc/cpp/imgui_stdlib.cpp
-        ${PROJECT_SOURCE_DIR}/external_libs/imgui/imgui-SFML.cpp ${PROJECT_SOURCE_DIR}/external_libs/imgui/imgui-SFML.cpp)
+        ${PROJECT_SOURCE_DIR}/external_libs/imgui/imgui-SFML.cpp)
 
-set(GUI_SOURCE_FILES ) # add your gui libs here
+#set(GUI_SOURCE_FILES "") # add your gui libs here
 
 set(SOURCE_FILES ${PROJECT_SOURCE_DIR}/src/main.cpp )
 
@@ -119,6 +115,7 @@ if(LINUX)
     target_link_libraries(imgui_sfml_starter stdc++fs png ${MY_STATIC_LIBS} ${SFML_DEPENDENCIES} ${SFML_REST})
 elseif(WIN32)
     if(MSVC)
+        message(WIN32)
         set(PATH_LIBS ${PROJECT_SOURCE_DIR}/external_libs/libs/win)
         if(DEBUG)
             set(PATH_SFML_LIB ${PROJECT_SOURCE_DIR}/external_libs/libs/win/debug/msvc/sfml)
@@ -139,7 +136,7 @@ elseif(WIN32)
             set(MY_STATIC_LIBS ${PATH_SFML_LIB}/libsfml-network-s.a ${PATH_SFML_LIB}/libsfml-audio-s.a ${PATH_SFML_LIB}/libsfml-graphics-s.a ${PATH_SFML_LIB}/libsfml-window-s.a ${PATH_SFML_LIB}/libsfml-system-s.a)
         endif()
 
-        add_executable(imgui_sfml_starter ${SOURCE_FILES} ${GUI_SOURCE_FILES} ${IMGUI_SOURCE_FILES} ${FMT_SOURCE_FILES} ${GME_SOURCE_FILES})
+        add_executable(imgui_sfml_starter ${SOURCE_FILES}  ${GUI_SOURCE_FILES} ${IMGUI_SOURCE_FILES} ${FMT_SOURCE_FILES} ${GME_SOURCE_FILES})
         target_link_libraries(imgui_sfml_starter stdc++fs ${MY_STATIC_LIBS} ${SFML_DEPENDENCIES})
     endif()
 elseif(APPLE)
@@ -162,7 +159,7 @@ elseif(APPLE)
 
     set(FRAMEWORK_LIBS_BASE "-framework Carbon" "-framework OpenGL" "-framework Cocoa" "-framework IOKit" "-framework CoreVideo" "-framework CoreFoundation")
 
-    set(MACOSX_BUNDLE_BUNDLE_NAME imgui_sfml_starter 
+    set(MACOSX_BUNDLE_BUNDLE_NAME imgui_sfml_starter )
     set(MACOSX_BUNDLE_GUI_IDENTIFIER "alexanderbrevig.imgui_sfml_starter.boilerplate")
     set(MACOSX_BUNDLE_INFO_STRING "Boilerplate for ImGui and SFML application development")
     set(MACOSX_BUNDLE_ICON_FILE "icon.icns")
@@ -183,5 +180,3 @@ elseif(APPLE)
                 FRAMEWORK ${MY_DYNAMIC_LIBS})
     endif()
 endif()
-
-#add_subdirectory(tests)
