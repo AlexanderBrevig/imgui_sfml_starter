@@ -7,3 +7,6 @@
 [submodule "external_libs/imgui-sfml"]
 	path = external_libs/imgui-sfml
 	url = https://github.com/eliasdaler/imgui-sfml
+[submodule "external_libs/fmt"]
+	path = external_libs/fmt
+	url = https://github.com/fmtlib/fmt
