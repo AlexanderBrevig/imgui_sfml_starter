@@ -1,6 +1,7 @@
 [submodule "external_libs/imgui"]
 	path = external_libs/imgui
 	url = https://github.com/AlexanderBrevig/imgui
+	branch = sfml
 [submodule "external_libs/SFML"]
 	path = external_libs/SFML
 	url = https://github.com/AlexanderBrevig/SFML
