@@ -1,0 +1,50 @@
+# TODO: add your config header here
+imgui_sfml_starter.h
+imgui_sfml_starter.dir
+
+# Prerequisites
+*.d
+
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic libraries
+
+# Fortran module files
+*.mod
+*.smod
+
+# Compiled Static libraries
+*.lai
+*.la
+
+# Executables
+*.exe
+*.out
+*.app
+
+cmake-build-debug/
+
+cmake-build-release/
+
+\.idea/
+
+\.vscode/
+
+build/
+
+# Visual Studio
+CMakeFiles/
+CMakeCache.txt
+.vs/*
+*.vcxproj*
+*.sln
+cmake_install.cmake
+CMakeSettings.json
