@@ -34,6 +34,14 @@ Alternatively use Visual Studio by going
     # press F5 !    
     
 
+## Libraries
+- [SFML](https://github.com/SFML/SFML) - For sound streaming, window, clipboard and displaying graphics.
+- [Dear ImGui](https://github.com/ocornut/imgui) - For anything GUI related.
+- [immgui-sfml](https://github.com/eliasdaler/imgui-sfml)
+- [Catch2](https://github.com/catchorg/Catch2/)
+- [json](https://github.com/nlohmann/json)
+- [fmt](https://github.com/fmtlib/fmt)
+
 ## Contributions
 Heavily based on the work of [SSBMTonberry](https://github.com/ssbmtonberry) and his [emu-jukebox](https://github.com/SSBMTonberry/emu-jukebox) project.
 
