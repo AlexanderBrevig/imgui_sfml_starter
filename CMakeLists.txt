@@ -51,7 +51,9 @@ endif()
 
 configure_file ("${PROJECT_SOURCE_DIR}/imgui_sfml_starter.h.in" "${PROJECT_SOURCE_DIR}/imgui_sfml_starter.h")
 
-include_directories(${PROJECT_SOURCE_DIR}/external_libs/imgui/
+include_directories(
+    ${PROJECT_SOURCE_DIR}/external_libs/
+    ${PROJECT_SOURCE_DIR}/external_libs/imgui/
     ${PROJECT_SOURCE_DIR}/external_libs/fmt/include/
     ${PROJECT_SOURCE_DIR}/external_libs/sfml/include/)
 
@@ -103,6 +105,8 @@ elseif(APPLE)
     set(SFML_DEPENDENCIES ${PATH_SFML_DEPEND}/FLAC.framework ${PATH_SFML_DEPEND}/freetype.framework ${PATH_SFML_DEPEND}/ogg.framework ${PATH_SFML_DEPEND}/OpenAL.framework ${PATH_SFML_DEPEND}/vorbis.framework ${PATH_SFML_DEPEND}/vorbisenc.framework ${PATH_SFML_DEPEND}/vorbisfile.framework)
 endif()
 
+add_executable(imgui_sfml_starter_tests tests/tests.cpp)
+
 if(LINUX)
     set(SFML_DEPENDENCIES jpeg X11 Xrandr freetype xcb X11-xcb xcb-randr xcb-image GL FLAC ogg vorbis vorbisenc vorbisfile openal pthread)
     set(SFML_REST udev) #libudev
@@ -120,6 +124,7 @@ if(LINUX)
 
     add_executable(imgui_sfml_starter ${SOURCE_FILES} ${GUI_SOURCE_FILES} ${IMGUI_SOURCE_FILES} ${FMT_SOURCE_FILES} ${GME_SOURCE_FILES} )
     target_link_libraries(imgui_sfml_starter stdc++fs png ${MY_STATIC_LIBS} ${SFML_DEPENDENCIES} ${SFML_REST})
+    target_link_libraries(imgui_sfml_starter_tests stdc++fs png ${MY_STATIC_LIBS} ${SFML_DEPENDENCIES} ${SFML_REST})
 elseif(WIN32)
     if(MSVC)
         set(PATH_LIBS ${PROJECT_SOURCE_DIR}/external_libs/libs/win)
@@ -136,6 +141,7 @@ elseif(WIN32)
         set(SFML_DEPENDENCIES opengl32.lib winmm.lib gdi32.lib ${PATH_SFML_DEPEND}/freetype.lib ${PATH_SFML_DEPEND}/openal32.lib ${PATH_SFML_DEPEND}/flac.lib ${PATH_SFML_DEPEND}/vorbisenc.lib ${PATH_SFML_DEPEND}/vorbisfile.lib ${PATH_SFML_DEPEND}/vorbis.lib ${PATH_SFML_DEPEND}/ogg.lib ws2_32.lib )
         add_executable(imgui_sfml_starter ${SOURCE_FILES} ${GUI_SOURCE_FILES} ${IMGUI_SOURCE_FILES} ${FMT_SOURCE_FILES} ${GME_SOURCE_FILES})
         target_link_libraries(imgui_sfml_starter ${MY_STATIC_LIBS} ${SFML_DEPENDENCIES})
+        target_link_libraries(imgui_sfml_starter_tests ${MY_STATIC_LIBS} ${SFML_DEPENDENCIES})
     else()
         #set(MY_STATIC_LIBS ${PATH_LIBS}/libfmt.a ${PATH_SFML_LIB}/libsfml-network.a ${PATH_SFML_LIB}/libsfml-audio.a ${PATH_SFML_LIB}/libsfml-graphics.a ${PATH_SFML_LIB}/libsfml-window.a ${PATH_SFML_LIB}/libsfml-system.a)
         if(DEBUG)
@@ -151,6 +157,7 @@ elseif(WIN32)
         set(SFML_DEPEND_2 opengl32 winmm gdi32 freetype jpeg)
         add_executable(imgui_sfml_starter ${SOURCE_FILES} ${GUI_SOURCE_FILES} ${IMGUI_SOURCE_FILES} ${FMT_SOURCE_FILES} ${GME_SOURCE_FILES})
         target_link_libraries(imgui_sfml_starter stdc++fs ${MY_STATIC_LIBS} ${SFML_DEPENDENCIES})
+        target_link_libraries(imgui_sfml_starter_tests stdc++fs ${MY_STATIC_LIBS} ${SFML_DEPENDENCIES})
     endif()
 elseif(APPLE)
     set(PATH_SFML_DEPEND ${PROJECT_SOURCE_DIR}/external_libs/libs/osx/frameworks)
@@ -187,11 +194,17 @@ elseif(APPLE)
     #stdc++
     if(SFML_BUILD_STATIC)
         target_link_libraries(imgui_sfml_starter stdc++ -ObjC /usr/local/opt/llvm/lib/libc++experimental.a /usr/local/opt/llvm/lib/libc++fs.a ${MY_STATIC_LIBS} ${FRAMEWORK_LIBS_BASE} ${SFML_DEPENDENCIES})
+        target_link_libraries(imgui_sfml_starter_tests stdc++ -ObjC /usr/local/opt/llvm/lib/libc++experimental.a /usr/local/opt/llvm/lib/libc++fs.a ${MY_STATIC_LIBS} ${FRAMEWORK_LIBS_BASE} ${SFML_DEPENDENCIES})
     else()
         target_link_libraries(imgui_sfml_starter stdc++ -ObjC /usr/local/opt/llvm/lib/libc++experimental.a /usr/local/opt/llvm/lib/libc++fs.a ${MY_DYNAMIC_LIBS} ${FRAMEWORK_LIBS_BASE} ${SFML_DEPENDENCIES})
+        target_link_libraries(imgui_sfml_starter_tests stdc++ -ObjC /usr/local/opt/llvm/lib/libc++experimental.a /usr/local/opt/llvm/lib/libc++fs.a ${MY_DYNAMIC_LIBS} ${FRAMEWORK_LIBS_BASE} ${SFML_DEPENDENCIES})
         set_target_properties(imgui_sfml_starter PROPERTIES
                 MACOSX_BUNDLE TRUE
                 MACOSX_FRAMEWORK_IDENTIFIER org.cmake.ExecutableTarget
                 FRAMEWORK ${MY_DYNAMIC_LIBS})
     endif()
 endif()
+
+
+ 
+add_test(do_imgui_sfml_starter_tests imgui_sfml_starter_tests)
