@@ -37,10 +37,10 @@ Alternatively use Visual Studio by going
 ## Libraries
 - [SFML](https://github.com/SFML/SFML) - For sound streaming, window, clipboard and displaying graphics.
 - [Dear ImGui](https://github.com/ocornut/imgui) - For anything GUI related.
-- [immgui-sfml](https://github.com/eliasdaler/imgui-sfml)
-- [Catch2](https://github.com/catchorg/Catch2/)
-- [json](https://github.com/nlohmann/json)
-- [fmt](https://github.com/fmtlib/fmt)
+- [Catch2](https://github.com/catchorg/Catch2/) - For testing
+- [json](https://github.com/nlohmann/json) - For JSON read/write
+- [fmt](https://github.com/fmtlib/fmt) - For formatting
+- [cpplinq](https://github.com/mrange/cpplinq) - Higher order functions for range manipulations
 
 ## Contributions
 Heavily based on the work of [SSBMTonberry](https://github.com/ssbmtonberry) and his [emu-jukebox](https://github.com/SSBMTonberry/emu-jukebox) project.
