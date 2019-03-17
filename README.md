@@ -35,6 +35,6 @@ Alternatively use Visual Studio by going
     
 
 ## Contributions
-Heavily based on the work of [SSBMTonberry](https://github.com/ssbmtonberry) and his [imgui_sfml_starter](https://github.com/SSBMTonberry/imgui_sfml_starter) project.
+Heavily based on the work of [SSBMTonberry](https://github.com/ssbmtonberry) and his [emu-jukebox](https://github.com/SSBMTonberry/emu-jukebox) project.
 
 Thank you!
