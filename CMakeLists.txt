@@ -11,10 +11,10 @@ set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -DSFML_STATIC")
 
 if(CMAKE_BUILD_TYPE STREQUAL "Release")
     set(RELEASE 1)
-    message(RELEASE')
+    message("Building Release to: ${CMAKE_BINARY_DIR}")
 else()
     set(DEBUG 1)
-    message(DEBUGGIN')
+    message("Building Debug to: ${CMAKE_BINARY_DIR}")
 endif()
 
 if(UNIX AND NOT APPLE)
@@ -52,6 +52,11 @@ endif()
 configure_file (
     "${PROJECT_SOURCE_DIR}/imgui_sfml_starter.h.in" 
     "${PROJECT_SOURCE_DIR}/imgui_sfml_starter.h")
+    
+configure_file(
+    "${PROJECT_SOURCE_DIR}/src/menu.json"
+    "${CMAKE_BINARY_DIR}/menu.json"
+    COPYONLY)
 
 include_directories(
     ${PROJECT_SOURCE_DIR}/external_libs/imgui/
@@ -200,5 +205,5 @@ elseif(APPLE)
                 FRAMEWORK ${MY_DYNAMIC_LIBS})
     endif()
 endif()
- 
+
 add_test(do_imgui_sfml_starter_tests imgui_sfml_starter_tests)
