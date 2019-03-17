@@ -49,27 +49,32 @@ else()
     set(MINGW 0)
 endif()
 
-configure_file ("${PROJECT_SOURCE_DIR}/imgui_sfml_starter.h.in" "${PROJECT_SOURCE_DIR}/imgui_sfml_starter.h")
+configure_file (
+    "${PROJECT_SOURCE_DIR}/imgui_sfml_starter.h.in" 
+    "${PROJECT_SOURCE_DIR}/imgui_sfml_starter.h")
 
 include_directories(
-    ${PROJECT_SOURCE_DIR}/external_libs/
     ${PROJECT_SOURCE_DIR}/external_libs/imgui/
     ${PROJECT_SOURCE_DIR}/external_libs/fmt/include/
-    ${PROJECT_SOURCE_DIR}/external_libs/sfml/include/)
+    ${PROJECT_SOURCE_DIR}/external_libs/sfml/include/
+    ${PROJECT_SOURCE_DIR}/external_libs/)
 
 
-set(FMT_SOURCE_FILES ${PROJECT_SOURCE_DIR}/external_libs/fmt/src/format.cc ${PROJECT_SOURCE_DIR}/external_libs/fmt/src/posix.cc)  
+set(FMT_SOURCE_FILES 
+    ${PROJECT_SOURCE_DIR}/external_libs/fmt/src/format.cc 
+    ${PROJECT_SOURCE_DIR}/external_libs/fmt/src/posix.cc)  
 
-set(IMGUI_SOURCE_FILES ${PROJECT_SOURCE_DIR}/external_libs/imgui/imgui.cpp ${PROJECT_SOURCE_DIR}/external_libs/imgui/imconfig.h
-        ${PROJECT_SOURCE_DIR}/external_libs/imgui/imgui_draw.cpp ${PROJECT_SOURCE_DIR}/external_libs/imgui/imgui_widgets.cpp
-        ${PROJECT_SOURCE_DIR}/external_libs/imgui/imgui_demo.cpp ${PROJECT_SOURCE_DIR}/external_libs/imgui/misc/cpp/imgui_stdlib.cpp
-        ${PROJECT_SOURCE_DIR}/external_libs/imgui/imgui-SFML.cpp)
+set(IMGUI_SOURCE_FILES 
+    ${PROJECT_SOURCE_DIR}/external_libs/imgui/imgui.cpp 
+    ${PROJECT_SOURCE_DIR}/external_libs/imgui/imconfig.h
+    ${PROJECT_SOURCE_DIR}/external_libs/imgui/imgui_draw.cpp 
+    ${PROJECT_SOURCE_DIR}/external_libs/imgui/imgui_widgets.cpp
+    ${PROJECT_SOURCE_DIR}/external_libs/imgui/imgui_demo.cpp 
+    ${PROJECT_SOURCE_DIR}/external_libs/imgui/misc/cpp/imgui_stdlib.cpp
+    ${PROJECT_SOURCE_DIR}/external_libs/imgui/imgui-SFML.cpp)
 
-#set(GUI_SOURCE_FILES "") # add your gui libs here
-
-set(SOURCE_FILES ${PROJECT_SOURCE_DIR}/src/main.cpp )
-
-
+set(SOURCE_FILES 
+    ${PROJECT_SOURCE_DIR}/src/main.cpp )
 
 if(LINUX)
     set(SFML_DEPENDENCIES jpeg X11 Xrandr freetype xcb X11-xcb xcb-randr xcb-image GL FLAC ogg vorbis vorbisenc vorbisfile openal pthread)
@@ -77,7 +82,6 @@ if(LINUX)
 elseif(WIN32)
     if(MSVC)
         message("USING MSVC")
-
         if(DEBUG)
             set(PATH_SFML_DEPEND ${PROJECT_SOURCE_DIR}/external_libs/SFML/lib/Debug/)
         elseif(RELEASE)
@@ -85,17 +89,14 @@ elseif(WIN32)
         endif()
 
         set(SFML_DEPENDENCIES opengl32.lib winmm.lib gdi32.lib ws2_32.lib )
-        #set(SFML_DEPENDENCIES  ${PATH_SFML_DEPEND}/freetype.lib ${PATH_SFML_DEPEND}/openal32.lib ${PATH_SFML_DEPEND}/flac.lib ${PATH_SFML_DEPEND}/vorbisenc.lib ${PATH_SFML_DEPEND}/vorbisfile.lib ${PATH_SFML_DEPEND}/vorbis.lib ${PATH_SFML_DEPEND}/ogg.lib ws2_32.lib )
-        #set(SFML_DEPEND_2 opengl32 winmm gdi32 )
     else()
-        message("USING MINGW")
+        message("USING MINGW - untested, consider using Visual Studio")
         if(DEBUG)
             set(PATH_SFML_DEPEND ${PROJECT_SOURCE_DIR}/external_libs/SFML/lib/Debug/)
         elseif(RELEASE)
             set(PATH_SFML_DEPEND ${PROJECT_SOURCE_DIR}/external_libs/SFML/lib/Release/)
         endif()
-        message("PATH: " ${PATH_SFML_DEPEND})
-        set(SFML_DEPENDENCIES  )
+        set(SFML_DEPENDENCIES)
         set(SFML_DEPEND_2 opengl32 winmm gdi32 freetype jpeg)
     endif()
 elseif(APPLE)
@@ -119,10 +120,8 @@ if(LINUX)
         set(PATH_SFML_LIB ${PATH_LIBS}/sfml)
         set(MY_STATIC_LIBS ${PATH_SFML_LIB}/libsfml-network-s.a ${PATH_SFML_LIB}/libsfml-audio-s.a ${PATH_SFML_LIB}/libsfml-graphics-s.a ${PATH_SFML_LIB}/libsfml-window-s.a ${PATH_SFML_LIB}/libsfml-system-s.a)
     endif()
-    #set(MY_STATIC_LIBS ${PATH_LIBS}/libclip.a ${PATH_LIBS}/libfmt.a ${PATH_LIBS}/libgme.a ${PATH_SFML_LIB}/libsfml-network-s.a ${PATH_SFML_LIB}/libsfml-audio-s.a ${PATH_SFML_LIB}/libsfml-graphics-s.a ${PATH_SFML_LIB}/libsfml-window-s.a ${PATH_SFML_LIB}/libsfml-system-s.a)
-    #target_link_libraries(imgui_sfml_starter stdc++fs png ${MY_STATIC_LIBS} ${SFML_DEPENDENCIES} ${SFML_REST})
 
-    add_executable(imgui_sfml_starter ${SOURCE_FILES} ${GUI_SOURCE_FILES} ${IMGUI_SOURCE_FILES} ${FMT_SOURCE_FILES} ${GME_SOURCE_FILES} )
+    add_executable(imgui_sfml_starter ${SOURCE_FILES} ${IMGUI_SOURCE_FILES} ${FMT_SOURCE_FILES}  )
     target_link_libraries(imgui_sfml_starter stdc++fs png ${MY_STATIC_LIBS} ${SFML_DEPENDENCIES} ${SFML_REST})
     target_link_libraries(imgui_sfml_starter_tests stdc++fs png ${MY_STATIC_LIBS} ${SFML_DEPENDENCIES} ${SFML_REST})
 elseif(WIN32)
@@ -139,11 +138,10 @@ elseif(WIN32)
         endif()
         
         set(SFML_DEPENDENCIES opengl32.lib winmm.lib gdi32.lib ${PATH_SFML_DEPEND}/freetype.lib ${PATH_SFML_DEPEND}/openal32.lib ${PATH_SFML_DEPEND}/flac.lib ${PATH_SFML_DEPEND}/vorbisenc.lib ${PATH_SFML_DEPEND}/vorbisfile.lib ${PATH_SFML_DEPEND}/vorbis.lib ${PATH_SFML_DEPEND}/ogg.lib ws2_32.lib )
-        add_executable(imgui_sfml_starter ${SOURCE_FILES} ${GUI_SOURCE_FILES} ${IMGUI_SOURCE_FILES} ${FMT_SOURCE_FILES} ${GME_SOURCE_FILES})
+        add_executable(imgui_sfml_starter ${SOURCE_FILES} ${IMGUI_SOURCE_FILES} ${FMT_SOURCE_FILES} )
         target_link_libraries(imgui_sfml_starter ${MY_STATIC_LIBS} ${SFML_DEPENDENCIES})
         target_link_libraries(imgui_sfml_starter_tests ${MY_STATIC_LIBS} ${SFML_DEPENDENCIES})
     else()
-        #set(MY_STATIC_LIBS ${PATH_LIBS}/libfmt.a ${PATH_SFML_LIB}/libsfml-network.a ${PATH_SFML_LIB}/libsfml-audio.a ${PATH_SFML_LIB}/libsfml-graphics.a ${PATH_SFML_LIB}/libsfml-window.a ${PATH_SFML_LIB}/libsfml-system.a)
         if(DEBUG)
             set(PATH_SFML_DEPEND ${PROJECT_SOURCE_DIR}/external_libs/libs/win/debug/mingw/sfml)
             set(PATH_SFML_LIB ${PROJECT_SOURCE_DIR}/external_libs/libs/win/debug/mingw/sfml)
@@ -155,7 +153,7 @@ elseif(WIN32)
         endif()
         set(SFML_DEPENDENCIES ${PATH_SFML_DEPEND}/libfreetype.a ${PATH_SFML_DEPEND}/libFLAC.a ${PATH_SFML_DEPEND}/libogg.a ${PATH_SFML_DEPEND}/libopenal32.a ${PATH_SFML_DEPEND}/libvorbis.a ${PATH_SFML_DEPEND}/libvorbisenc.a ${PATH_SFML_DEPEND}/libvorbisfile.a)
         set(SFML_DEPEND_2 opengl32 winmm gdi32 freetype jpeg)
-        add_executable(imgui_sfml_starter ${SOURCE_FILES} ${GUI_SOURCE_FILES} ${IMGUI_SOURCE_FILES} ${FMT_SOURCE_FILES} ${GME_SOURCE_FILES})
+        add_executable(imgui_sfml_starter ${SOURCE_FILES} ${IMGUI_SOURCE_FILES} ${FMT_SOURCE_FILES} )
         target_link_libraries(imgui_sfml_starter stdc++fs ${MY_STATIC_LIBS} ${SFML_DEPENDENCIES})
         target_link_libraries(imgui_sfml_starter_tests stdc++fs ${MY_STATIC_LIBS} ${SFML_DEPENDENCIES})
     endif()
@@ -188,10 +186,8 @@ elseif(APPLE)
     set(MACOSX_BUNDLE_LONG_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH})
     set(MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH})
     set(MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH})
-    #add_executable(imgui_sfml_starter ${SOURCE_FILES} ${GUI_SOURCE_FILES} ${IMGUI_SOURCE_FILES} ${FMT_SOURCE_FILES} ${GME_SOURCE_FILES})
-    add_executable(imgui_sfml_starter MACOSX_BUNDLE ${SOURCE_FILES} ${GUI_SOURCE_FILES} ${IMGUI_SOURCE_FILES} ${FMT_SOURCE_FILES} ${GME_SOURCE_FILES})
-    #target_link_libraries(imgui_sfml_starter stdc++fs ${MY_STATIC_LIBS} ${SFML_DEPENDENCIES})
-    #stdc++
+    add_executable(imgui_sfml_starter MACOSX_BUNDLE ${SOURCE_FILES} ${IMGUI_SOURCE_FILES} ${FMT_SOURCE_FILES} )
+
     if(SFML_BUILD_STATIC)
         target_link_libraries(imgui_sfml_starter stdc++ -ObjC /usr/local/opt/llvm/lib/libc++experimental.a /usr/local/opt/llvm/lib/libc++fs.a ${MY_STATIC_LIBS} ${FRAMEWORK_LIBS_BASE} ${SFML_DEPENDENCIES})
         target_link_libraries(imgui_sfml_starter_tests stdc++ -ObjC /usr/local/opt/llvm/lib/libc++experimental.a /usr/local/opt/llvm/lib/libc++fs.a ${MY_STATIC_LIBS} ${FRAMEWORK_LIBS_BASE} ${SFML_DEPENDENCIES})
@@ -204,7 +200,5 @@ elseif(APPLE)
                 FRAMEWORK ${MY_DYNAMIC_LIBS})
     endif()
 endif()
-
-
  
 add_test(do_imgui_sfml_starter_tests imgui_sfml_starter_tests)
