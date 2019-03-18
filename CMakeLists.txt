@@ -52,11 +52,6 @@ endif()
 configure_file (
     "${PROJECT_SOURCE_DIR}/imgui_sfml_starter.h.in" 
     "${PROJECT_SOURCE_DIR}/imgui_sfml_starter.h")
-    
-configure_file(
-    "${PROJECT_SOURCE_DIR}/src/menu.json"
-    "${CMAKE_BINARY_DIR}/menu.json"
-    COPYONLY)
 
 include_directories(
     ${PROJECT_SOURCE_DIR}/external_libs/imgui/
